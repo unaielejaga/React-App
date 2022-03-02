@@ -23,8 +23,12 @@ export default class ProfileScreen extends Component {
           </View>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.desc}>Email: </Text>
-              <Text style={styles.desc}>Nº Tel: </Text>
+              <Text style={styles.desc}>
+                Email:
+              </Text>
+              <Text style={styles.desc}>
+                Nº Tel: 
+              </Text>
               <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.goBack()}>
                 <Text style={{color:'#fff',  fontSize:16, fontWeight:'bold'}}>Atrás</Text>  
               </TouchableOpacity> 
@@ -65,13 +69,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
     fontWeight:'bold',
-    marginBottom:20
+    marginBottom:10,
+    height:25
   },
   bodyContent: {
     flex: 1,
     alignItems: 'center',
-    padding:30,
-    marginTop:30
+    padding: 10,
+    marginTop:10
   },
   textInfo:{
     fontSize:18,
