@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
+import { useNavigation } from '@react-navigation/core'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const navigation = useNavigation()
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        this.props.navigation.replace("Home")
+        navigation.replace("Principal")
       }
     })
 
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: '#0782F9',
+    backgroundColor: '#4f6367',
     width: '100%',
     padding: 15,
     borderRadius: 10,
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
   buttonOutline: {
     backgroundColor: 'white',
     marginTop: 5,
-    borderColor: '#0782F9',
+    borderColor: '#4f6367',
     borderWidth: 2,
   },
   buttonText: {
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: '#0782F9',
+    color: '#4f6367',
     fontWeight: '700',
     fontSize: 16,
   },

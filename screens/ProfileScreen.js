@@ -7,40 +7,55 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import { auth } from '../firebase'
+import { useNavigation } from '@react-navigation/core'
 
-export default class ProfileScreen extends Component {
 
-  render() {
-    return (
-      <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.headerContent}>
-                <Image style={styles.avatar} source={{uri: 'https://img.icons8.com/doodle/192/000000/homer-simpson.png'}}/>
-                <Text style={styles.name}>
-                  NombreUsuario
-                </Text>
-            </View>
-          </View>
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <Text style={styles.desc}>
-                Email:
-              </Text>
-              <Text style={styles.desc}>
-                Nº Tel: 
-              </Text>
-              <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.goBack()}>
-                <Text style={{color:'#fff',  fontSize:16, fontWeight:'bold'}}>Atrás</Text>  
-              </TouchableOpacity> 
-              <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.goBack()}>
-                <Text style={{color:'#fff',  fontSize:16, fontWeight:'bold'}}>Cerrar Sesión</Text>  
-              </TouchableOpacity> 
-            </View>
-        </View>
-      </View>
-    );
+
+const ProfileScreen  = () => {
+
+  const navigation = useNavigation()
+
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("LoginStack")
+      })
+      .catch(error => alert(error.message))
   }
+
+  return (
+    <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.headerContent}>
+            <Image style={styles.avatar} source={{uri: 'https://img.icons8.com/doodle/192/000000/homer-simpson.png'}}/>
+              <Text style={styles.name}>
+                NombreUsuario
+              </Text>
+          </View>
+        </View>
+        <View style={styles.body}>
+          <View style={styles.bodyContent}>
+            <Text style={styles.desc}>
+              Email: {auth.currentUser?.email}
+            </Text>
+            <Text style={styles.desc}>
+              Nº Tel: 
+            </Text>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.goBack()}>
+              <Text style={{color:'#fff',  fontSize:16, fontWeight:'bold'}}>Atrás</Text>  
+            </TouchableOpacity> 
+            <TouchableOpacity style={styles.buttonContainer} onPress={handleSignOut}>
+              <Text style={{color:'#fff',  fontSize:16, fontWeight:'bold'}}>Cerrar Sesión</Text>  
+            </TouchableOpacity> 
+          </View>
+      </View>
+    </View>
+  ) 
 }
+
+export default ProfileScreen
 
 const styles = StyleSheet.create({
   header:{
