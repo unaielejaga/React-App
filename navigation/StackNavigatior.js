@@ -12,6 +12,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Principal" component={DrawerNavigator} />
       <Stack.Screen name="Settings" component={DrawerNavigator} />
       <Stack.Screen name="Perfil" component={DrawerNavigator} />
+      <Stack.Screen name="Compra" component={DrawerNavigator} />
       <Stack.Screen name="LoginStack" component={LoginScreen} />
     </Stack.Navigator>
   );
