@@ -19,16 +19,26 @@ const AddScreen = () => {
     addItem(name);
     navigation.goBack()
   };
+
+  const volver = () => {
+    navigation.goBack()
+  }
       
   return (
     <View style={styles.main}>
-        <Text style={styles.title}>Add Item</Text>
+        <Text style={styles.title}>Añadir Producto</Text>
         <TextInput style={styles.itemInput} onChangeText={text => onChangeText(text)} />
         <TouchableOpacity
           onPress={handleSubmit}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>Add</Text>
+          <Text style={styles.buttonText}>Añadir</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonOutline]}
+          onPress={volver}
+        >
+          <Text style={styles.buttonOutlineText}>Volver</Text>
         </TouchableOpacity>
     </View>
   )
@@ -39,41 +49,46 @@ export default AddScreen
 const styles = StyleSheet.create({
     main: {
       flex: 1,
-      padding: 30,
-      flexDirection: 'column',
       justifyContent: 'center',
-      backgroundColor: '#6565fc'
+      alignItems: 'center',
     },
     title: {
       marginBottom: 20,
       fontSize: 25,
-      textAlign: 'center'
+      fontWeight: '700',
+      textAlign: 'center',
+      color: '#4f6367'
     },
     itemInput: {
-      height: 50,
-      padding: 4,
-      marginRight: 5,
-      fontSize: 23,
-      borderWidth: 1,
-      borderColor: 'white',
-      borderRadius: 8,
-      color: 'white'
+      backgroundColor: 'white',
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      borderRadius: 10,
+      marginTop: 5,
+      width: 500,
     },
     buttonText: {
-      fontSize: 18,
-      color: '#111',
-      alignSelf: 'center'
+      color: 'white',
+      fontWeight: '700',
+      fontSize: 16,
     },
     button: {
-      height: 45,
-      flexDirection: 'row',
+    backgroundColor: '#4f6367',
+    width: 500,
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 30,
+    },
+    buttonOutline: {
       backgroundColor: 'white',
-      borderColor: 'white',
-      borderWidth: 1,
-      borderRadius: 8,
-      marginBottom: 10,
-      marginTop: 10,
-      alignSelf: 'stretch',
-      justifyContent: 'center'
-    }
+      marginTop: 5,
+      borderColor: '#4f6367',
+      borderWidth: 2,
+    },
+    buttonOutlineText: {
+      color: '#4f6367',
+      fontWeight: '700',
+      fontSize: 16,
+    },
   });
