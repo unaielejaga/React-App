@@ -12,9 +12,9 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Perfil" component={ProfileScreen} />
       <Drawer.Screen name="Settings" component={SettingScreen} />
-      <Drawer.Screen name="Compra" component={ListScreen} />
+      <Drawer.Screen name="Perfil" component={ProfileScreen} options={{drawerItemStyle: { height: 0 }}}/>
+      <Drawer.Screen name="Compra" component={ListScreen}  options={{drawerItemStyle: { height: 0 }}} />
     </Drawer.Navigator>
   );
 }

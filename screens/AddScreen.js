@@ -4,7 +4,7 @@ import { db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
 
 let addItem = (item) => {
-  db.ref('/items').push({
+  db.ref('/compra').push({
       name: item
   });
 };
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       borderRadius: 10,
       marginTop: 5,
-      width: 500,
+      width: 300,
     },
     buttonText: {
       color: 'white',
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     },
     button: {
     backgroundColor: '#4f6367',
-    width: 500,
+    width: 300,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
