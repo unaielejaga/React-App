@@ -23,8 +23,12 @@ const ListScreen = () => {
   useEffect(() => {
     db.ref('users/' + auth.currentUser.uid).child('/compra').on('value', snapshot => {
       let data = snapshot.val();
-      const items = Object.values(data);
-      setItemsArray(items);
+      if(data != null){
+        const items = Object.values(data);
+        setItemsArray(items);
+      }else{
+        setItemsArray(null);
+      }
     });
   }, []);
 
