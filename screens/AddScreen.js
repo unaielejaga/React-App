@@ -2,11 +2,15 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-nativ
 import React, { useState } from 'react'
 import { db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
+import { auth } from '../firebase'
 
 let addItem = (item) => {
-  db.ref('/compra').push({
-      name: item
-  });
+  var newRef = db.ref('users/' + auth.currentUser.uid).child('/compra').push();
+  var newItem = {
+    key: newRef.key,
+    name: item
+  }
+  newRef.set(newItem);
 };
 
 const AddScreen = () => {

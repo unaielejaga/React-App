@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native
 import React, {useState, useEffect} from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { db } from '../firebase'
+import { auth } from '../firebase'
 
 
 const ListScreen = () => {
@@ -13,20 +14,17 @@ const ListScreen = () => {
   };
 
   const [itemsArray, setItemsArray] = useState([]);
-  const [keysArray, setKeysArray] = useState([]);
 
-  let handleDelete = (itemIndex) => {
-    console.log(itemIndex);
-    db.ref('/compra').child(keysArray[itemIndex]).remove();
+  let handleDelete = (item) => {
+    console.log(item);
+    db.ref('users/' + auth.currentUser.uid).child('/compra').child(item).remove();
   }
 
   useEffect(() => {
-    db.ref('/compra').on('value', snapshot => {
+    db.ref('users/' + auth.currentUser.uid).child('/compra').on('value', snapshot => {
       let data = snapshot.val();
       const items = Object.values(data);
-      const keys = Object.keys(data);
       setItemsArray(items);
-      setKeysArray(keys);
     });
   }, []);
 
@@ -37,7 +35,8 @@ const ListScreen = () => {
           <View style={styles.nameContainer}>
             <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
             <TouchableOpacity
-              onPress={() => handleDelete(itemsArray.indexOf(item))}
+              onPress={() => handleDelete(item.key.toString())}
+                //handleDelete(item.key)}
             >
               <Text style={styles.mblTxt}>Eliminar</Text>
             </TouchableOpacity>
@@ -53,7 +52,7 @@ const ListScreen = () => {
       <Text style={styles.title}>Lista de la Compra</Text>
       <FlatList style={{flex: 1}}
         data={itemsArray}
-        keyExtractor={(item) => {itemsArray.indexOf(item)}}
+        keyExtractor={(item) => item.key}
         renderItem={renderitem}/>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
