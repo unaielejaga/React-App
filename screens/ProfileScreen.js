@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,10 +9,13 @@ import {
 } from 'react-native';
 import { auth } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
+import { db } from '../firebase'
 
 
 
 const ProfileScreen  = () => {
+
+  const[usuario, setUsuario] = useState(false)
 
   const navigation = useNavigation()
 
@@ -25,13 +28,25 @@ const ProfileScreen  = () => {
       .catch(error => alert(error.message))
   }
 
+  useEffect(() => {
+    db.ref('users/' + auth.currentUser.uid).child('/usuario').on('value', snapshot => {
+      let data = snapshot.val();
+      if(data != null){
+        const items = Object.values(data);
+        setUsuario(items[0]);
+      }else{
+        setUsuario(null);
+      }
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <Image style={styles.avatar} source={{uri: 'https://img.icons8.com/doodle/192/000000/homer-simpson.png'}}/>
               <Text style={styles.name}>
-                NombreUsuario
+                {usuario.nombre}
               </Text>
           </View>
         </View>
@@ -41,7 +56,10 @@ const ProfileScreen  = () => {
               Email: {auth.currentUser?.email}
             </Text>
             <Text style={styles.desc}>
-              Nº Tel: 
+              Nº Tel: {usuario.tel}
+            </Text>
+            <Text style={styles.desc}>
+              Despensa: {usuario.despensa}
             </Text>
             <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.goBack()}>
               <Text style={{color:'#fff',  fontSize:16, fontWeight:'bold'}}>Atrás</Text>  

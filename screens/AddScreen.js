@@ -20,8 +20,12 @@ const AddScreen = () => {
   const [name, onChangeText] = useState('');
   
   const  handleSubmit = () => {
-    addItem(name);
-    navigation.goBack()
+    if(!name.trim()){
+      alert("Campo sin rellenar")
+    }else{
+      addItem(name);
+      navigation.goBack()
+    }
   };
 
   const volver = () => {

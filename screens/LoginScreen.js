@@ -9,22 +9,13 @@ const LoginScreen = () => {
 
   const navigation = useNavigation()
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("Principal")
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
   const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
+        navigation.replace("Registro");
       })
       .catch(error => alert(error.message))
   }
@@ -35,6 +26,7 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
+        navigation.replace("Principal");
       })
       .catch(error => alert(error.message))
   }
@@ -71,7 +63,7 @@ const LoginScreen = () => {
           onPress={handleSignUp}
           style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonOutlineText}>Register</Text>
+          <Text style={styles.buttonOutlineText}>Registro</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
