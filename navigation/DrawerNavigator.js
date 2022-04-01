@@ -5,6 +5,7 @@ import Home from "../screens/HomeScreen";
 import SettingScreen from "../screens/SettingScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ListScreen from "../screens/ListScreen";
+import RecetasScreen from "../screens/RecetasScreen";
 
 
 const Drawer = createDrawerNavigator();
@@ -16,7 +17,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="Settings" component={SettingScreen} />
       <Drawer.Screen name="Perfil" component={ProfileScreen} options={{drawerItemStyle: { height: 0 }}}/>
       <Drawer.Screen name="Compra" component={ListScreen}  options={{drawerItemStyle: { height: 0 }}} />
-     
+      <Drawer.Screen name="Recetas" component={RecetasScreen}  options={{drawerItemStyle: { height: 0 }}} />
     </Drawer.Navigator>
   );
 }

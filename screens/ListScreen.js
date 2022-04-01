@@ -40,7 +40,6 @@ const ListScreen = () => {
             <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
             <TouchableOpacity
               onPress={() => handleDelete(item.key.toString())}
-                //handleDelete(item.key)}
             >
               <Text style={styles.mblTxt}>Eliminar</Text>
             </TouchableOpacity>
