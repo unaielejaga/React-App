@@ -6,6 +6,7 @@ import SettingScreen from "../screens/SettingScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ListScreen from "../screens/ListScreen";
 import RecetasScreen from "../screens/RecetasScreen";
+import DespensaScreen from "../screens/DespensaScreen";
 
 
 const Drawer = createDrawerNavigator();
@@ -18,6 +19,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="Perfil" component={ProfileScreen} options={{drawerItemStyle: { height: 0 }}}/>
       <Drawer.Screen name="Compra" component={ListScreen}  options={{drawerItemStyle: { height: 0 }}} />
       <Drawer.Screen name="Recetas" component={RecetasScreen}  options={{drawerItemStyle: { height: 0 }}} />
+      <Drawer.Screen name="Despensa" component={DespensaScreen}  options={{drawerItemStyle: { height: 0 }}} />
     </Drawer.Navigator>
   );
 }
