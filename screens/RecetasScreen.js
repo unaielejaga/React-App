@@ -50,6 +50,24 @@ const RecetasScreen = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Recetas Recomendadas:</Text>
+            <FlatList 
+                style={styles.notificationList}
+                data={itemsArray}
+                keyExtractor= {(item) => {
+                return item.url;
+                }}
+                renderItem={({item}) => {
+                return (
+                    <TouchableOpacity style={[styles.card, {borderColor:'#4f6367'}]} onPress={() => {cardClickEventListener(item)}}>
+                    <View style={styles.cardContent}>
+                        <Text style={styles.name}>{item.nombre}</Text>
+                    </View>
+                    <View style={[styles.cardContent, styles.tagsContent]}>
+                        {renderTags(item)}
+                    </View>
+                    </TouchableOpacity>
+                )
+                }}/>
             <Text style={styles.title}>Todas las Recetas:</Text>
             <FlatList 
                 style={styles.notificationList}
@@ -85,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop:30,
   },
   title: {
-    marginTop: 30,
+    marginTop: 20,
     fontSize: 25,
     fontWeight: '700',
     textAlign: 'center',
@@ -122,6 +140,8 @@ const styles = StyleSheet.create({
   notificationList:{
     marginTop:5,
     padding:5,
+    height: '35%',
+    flexGrow: 0
   },
   card: {
     height:null,

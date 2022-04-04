@@ -14,10 +14,25 @@ const ListScreen = () => {
   };
 
   const [itemsArray, setItemsArray] = useState([]);
+  const [despensaArray, setDespensaArray] = useState([]);
+
+  let fontColor = '';
 
   let handleDelete = (item) => {
     console.log(item);
     db.ref('users/' + auth.currentUser.uid).child('/compra').child(item).remove();
+  }
+
+  let handleDespensa = (despensa) => {
+    db.ref('/despensas').child(despensa).on('value', snapshot => {
+      let data = snapshot.val();
+      if(data != null){
+          const items2 = Object.values(data);
+          setDespensaArray(items2);
+      }else{
+          setDespensaArray(null);
+      }
+    });
   }
 
   useEffect(() => {
@@ -26,18 +41,43 @@ const ListScreen = () => {
       if(data != null){
         const items = Object.values(data);
         setItemsArray(items);
+        handleUsuario();
       }else{
         setItemsArray(null);
       }
     });
   }, []);
 
+  let handleUsuario = () => {
+    db.ref('users/' + auth.currentUser.uid).child('/usuario').on('value', snapshot => {
+        let data = snapshot.val();
+        if(data != null){
+          const items1 = Object.values(data);
+          handleDespensa(items1[0].despensa);
+        }else{
+          setUsuario(null);
+        }
+      });
+    }
+
+    let changeColor = ({item}) => {
+      for(var despensa of despensaArray) {
+        if(despensa.nombre.toLowerCase() == item.name.toLowerCase()){
+          fontColor = 'green';
+          break;
+        }else{
+          fontColor = 'red';
+        }
+      }
+    }
+
   const renderitem = ({item}) => {
+    changeColor({item});
     return(
       <View style={styles.row}>
         <View>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
+            <Text style={[styles.nameTxt, {color: fontColor}]} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
             <TouchableOpacity
               onPress={() => handleDelete(item.key.toString())}
             >

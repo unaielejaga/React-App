@@ -27,41 +27,15 @@ const DespensaScreen = () => {
   }
 
   let changeFontColor = ({item}) => {
-
-    const dateDia = new Date().getDate();
-    const dateMes = new Date().getMonth() + 1;
-    const dateAnyo = new Date().getFullYear();
-
-    let fechaCad = item.fechacad.split('/');
-    let restaAnyo = parseInt(fechaCad[2])-dateAnyo;
-    let restaMes = parseInt(fechaCad[1])-dateMes;
-    let restaDia = parseInt(fechaCad[0])-dateDia;
-
-    if(restaAnyo < 0){
-      fontColor='red';
-      estado='Malo';
-    }else if (restaAnyo === 0){
-      if(restaMes < 0){
-        fontColor='red';
-        estado='Malo';
-      }else if (restaMes === 0){
-        if(restaDia < 0){
-          fontColor='red';
-          estado='Malo';
-        } else if (restaDia >= 0 && restaDia <= 2){
-          fontColor='orange';
-          estado='Medio';
-        }else{
-          fontColor='green';
-          estado='Bueno';
-        }
-      }else{
-        fontColor='green';
-        estado='Bueno';
-      }
-    }else{
+    if(item.estado == 'bueno'){
       fontColor='green';
       estado='Bueno';
+    }else if(item.estado == 'medio'){
+      fontColor='orange';
+      estado='Medio';
+    }else{
+      fontColor='red';
+      estado='Malo';
     }
   }
 
