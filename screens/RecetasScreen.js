@@ -8,12 +8,30 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core'
 import { db } from '../firebase'
+import { auth } from '../firebase'
 
 const RecetasScreen = () => {
 
     const navigation = useNavigation();
 
     const [itemsArray, setItemsArray] = useState([]);
+    const [despensaArray, setDespensaArray] = useState([]);
+    const [recetasRecom, setRecetasRecom] = useState([]);
+
+    let recetaRecom = [];
+
+    let handleDespensa = (despensa, items) => {
+      db.ref('/despensas').child(despensa).on('value', snapshot => {
+        let data = snapshot.val();
+        if(data != null){
+            const items2 = Object.values(data);
+            setDespensaArray(items2);
+            recetasRecomendadas(items2, items);
+        }else{
+            setDespensaArray(null);
+        }
+      });
+    }
 
     useEffect(() => {
         db.ref('/recetas').on('value', snapshot => {
@@ -21,14 +39,45 @@ const RecetasScreen = () => {
           if(data != null){
             const items = Object.values(data);
             setItemsArray(items);
+            handleUsuario(items);
           }else{
             setItemsArray(null);
           }
         });
       }, []);
 
+          
+    let handleUsuario = (items) => {
+      db.ref('users/' + auth.currentUser.uid).child('/usuario').on('value', snapshot => {
+          let data = snapshot.val();
+          if(data != null){
+            const items1 = Object.values(data);
+            handleDespensa(items1[0].despensa, items);
+          }else{
+            setUsuario(null);
+          }
+        });
+      }
+
     let cardClickEventListener = (item) => {
         navigation.navigate('DescReceta', {recetaKey: item.receta})
+    }
+
+    let recetasRecomendadas = (despensas, recetas) => {
+      for(var receta of recetas){
+        for(var [key, ingrediente] of Object.entries(receta.ingredientes)){
+          for(var despIngre of despensas){
+            if(despIngre.estado != 'bueno'){
+              if(ingrediente.nombre.toLowerCase().indexOf(' '+despIngre.nombre.toLowerCase()+' ') > 0){
+                if(recetaRecom.findIndex(object => object.nombre === receta.nombre) === -1){
+                  recetaRecom.push(receta);
+                }
+              }
+            }
+          }
+        }
+      }
+      setRecetasRecom(recetaRecom);
     }
 
     const renderTags = (item) =>{
@@ -52,7 +101,7 @@ const RecetasScreen = () => {
             <Text style={styles.title}>Recetas Recomendadas:</Text>
             <FlatList 
                 style={styles.notificationList}
-                data={itemsArray}
+                data={recetasRecom}
                 keyExtractor= {(item) => {
                 return item.url;
                 }}

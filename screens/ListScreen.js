@@ -63,7 +63,11 @@ const ListScreen = () => {
     let changeColor = ({item}) => {
       for(var despensa of despensaArray) {
         if(despensa.nombre.toLowerCase() == item.name.toLowerCase()){
-          fontColor = 'green';
+          if(despensa.estado == 'bueno'){
+            fontColor = 'green';
+          }else{
+            fontColor = 'orange';
+          }
           break;
         }else{
           fontColor = 'red';
