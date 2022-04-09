@@ -78,7 +78,7 @@ const DescRecetaScreen = ({route}) => {
         <SafeAreaView style={{flex: 1}}>
         <FlatList
           data={ingredientes}
-          keyExtractor={(item) => item.nombre}
+          keyExtractor={(item) => ingredientes.indexOf(item)}
           ListHeaderComponent={ListHeader}
           ListFooterComponent={ListFooter}
           style={{backgroundColor: '#FFFFFF'}}

@@ -15,7 +15,7 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
-        navigation.replace("Registro");
+        navigation.replace("Scanner");
       })
       .catch(error => alert(error.message))
   }

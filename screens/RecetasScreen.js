@@ -67,7 +67,7 @@ const RecetasScreen = () => {
       for(var receta of recetas){
         for(var [key, ingrediente] of Object.entries(receta.ingredientes)){
           for(var despIngre of despensas){
-            if(despIngre.estado != 'bueno'){
+            if(despIngre.estado != 'malo'){
               if(ingrediente.nombre.toLowerCase().indexOf(' '+despIngre.nombre.toLowerCase()+' ') > 0){
                 if(recetaRecom.findIndex(object => object.nombre === receta.nombre) === -1){
                   recetaRecom.push(receta);

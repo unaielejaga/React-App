@@ -16,20 +16,21 @@ let addUser = (nombre, tel, despensa) => {
     newRef.set(newUser);
 };
 
-const RegisterScreen = () => {
+const RegisterScreen = ({route}) => {
+
+    const {despensa} = route.params;
 
     const navigation = useNavigation()
 
     const [nombre, setNombre] = useState('');
     const [tel, setTel] = useState('');
-    const [despensa, setDespensa] = useState('');
 
     const handleRegistro = () => {
-        if(!nombre.trim() || !tel.trim() || !despensa.trim()){
+        if(!nombre.trim() || !tel.trim()){
             alert("Faltan campos por rellenar");
         }else{
             console.log(nombre)
-            addUser(nombre, tel, despensa);
+            addUser(nombre, tel, despensa.data);
             navigation.replace("Principal");
         }
     };
@@ -50,12 +51,6 @@ const RegisterScreen = () => {
                 placeholder="Teléfono"
                 value={tel}
                 onChangeText={text => setTel(text)}
-                style={styles.input}
-            />
-            <TextInput
-                placeholder="Despensa"
-                value={despensa}
-                onChangeText={text => setDespensa(text)}
                 style={styles.input}
             />
             </View>
