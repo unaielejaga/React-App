@@ -1,17 +1,20 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/core'
 import { db } from '../firebase'
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 
-let addUser = (nombre, tel, despensa) => {
+let addUser = (nombre, tel, despensa, token) => {
     var newRef = db.ref('users/' + auth.currentUser.uid).child('/usuario').push();
     var newUser = {
         key: newRef.key,
         uid: auth.currentUser.uid,
         nombre: nombre,
         tel: tel,
-        despensa: despensa
+        despensa: despensa,
+        token: token
     }
     newRef.set(newUser);
 };
@@ -24,13 +27,35 @@ const RegisterScreen = ({route}) => {
 
     const [nombre, setNombre] = useState('');
     const [tel, setTel] = useState('');
+    const [tokenFinal, setToken] = useState('');
+
+    useEffect(() => {
+      registerForPushNotification();
+    }, [])
+
+    async function registerForPushNotification() {
+      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      if (status !== 'granted'){
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      }
+      if (status !== 'granted'){
+        alert('Fail to get the push token');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+
+      if(token){
+        setToken(token);
+      }
+      return token;
+    }
 
     const handleRegistro = () => {
         if(!nombre.trim() || !tel.trim()){
             alert("Faltan campos por rellenar");
         }else{
-            console.log(nombre)
-            addUser(nombre, tel, despensa.data);
+            console.log(tokenFinal);
+            addUser(nombre, tel, despensa.data, tokenFinal);
             navigation.replace("Principal");
         }
     };
