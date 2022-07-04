@@ -66,7 +66,7 @@ const ListScreen = () => {
           if(despensa.estado == 'bueno'){
             fontColor = 'green';
           }else{
-            fontColor = 'orange';
+            fontColor = '#FFA500';
           }
           break;
         }else{
